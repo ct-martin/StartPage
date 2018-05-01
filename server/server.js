@@ -98,7 +98,7 @@ function onRequest(request, response) {
 		response.write(index);
 	}
 	
-	response.end();
+	//response.end();
 }
 
 http.createServer(onRequest).listen(port);
