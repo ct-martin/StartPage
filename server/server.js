@@ -18,10 +18,10 @@ var responseHeadersRSS = {
 	"access-control-max-age": 10,
 	"Content-Type": "application/rss+xml"
 };
-var OWM_API_KEY '22cf961bcdba1c1e07075cd300013dd4';
+var OWM_API_KEY = '22cf961bcdba1c1e07075cd300013dd4';
 
 var index = fs.readFileSync(__dirname + '/../client/index.html');
-var jsFile = fs.readFileSync(__dirname + '/../client/.js');
+var jsFile = fs.readFileSync(__dirname + '/../client/main.js');
 
 function onRequest(request, response) {
 	console.log(request.url);

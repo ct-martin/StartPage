@@ -4,8 +4,7 @@
   "description": "A Start Page for your basic info needs",
   "main": "./server/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "run": "node ./server/server.js"
+    "start": "node ./server/server.js"
   },
   "author": "CTMartin",
   "license": "MIT",
