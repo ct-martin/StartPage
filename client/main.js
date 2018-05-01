@@ -30,6 +30,7 @@ var app = {
 			if(app.location.data.success != true) {
 				// don't have valid coords - don't try to use
 				console.log("Not updating weather; no valid location");
+				document.querySelector("#weather").innerHTML = '<i class="loadStates">Location unknown</i>';
 				return;
 			}
 			if(new Date() - new Date(app.weather.data.lastUpdate) - (10*60*1000) < 0) {
@@ -81,6 +82,7 @@ var app = {
 			if(new Date() - new Date(feed.lastUpdate) - (15*60*1000) < 0) {
 				// don't refresh if <15min since last update - feeds will be sad (BBC's specified TTL is 15)
 				console.log("Not updating feed; last update too recent");
+				app.feedRSS.display();
 				return;
 			}
 			
@@ -89,6 +91,7 @@ var app = {
 				feed.lastUpdate = new Date();
 				feed.cache = xhr.responseText;
 				
+				// Broken :(
 				//if(window.localStorage.feeds == null) {
 				//	window.localStorage.feeds = {};
 				//}
@@ -126,6 +129,7 @@ var app = {
 				var h2 = document.createElement('h2');
 				var a = document.createElement('a');
 				a.setAttribute('href', node.querySelector('link').firstChild.nodeValue);
+				a.setAttribute('target', '_blank');
 				var title = node.querySelector('title').firstChild.nodeValue;
 				var date = prettyDate(new Date(node.querySelector('pubDate').firstChild.nodeValue));
 				a.innerHTML = title + " <small><i>" + date + "</i></small>";

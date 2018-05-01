@@ -51,12 +51,12 @@ nav a:hover {
 }
 
 /* NEWS */
-#news div div {
+#news>div>div {
 	border: 1px solid lightgrey;
 	border-bottom: none;
 	padding: 8px;
 }
-#news div div:last-child {
+#news>div>div:last-child {
 	border-bottom: 1px solid lightgrey;
 }
 #news a {
@@ -64,4 +64,10 @@ nav a:hover {
 }
 #news h1 {
 	margin-left: 8px;
+}
+
+/* EFFECTS */
+i.loadStates, #news>div {
+	transition-property: height;
+	transition-duration: .5s;
 }
