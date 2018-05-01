@@ -34,6 +34,7 @@ function onRequest(request, response) {
 		var params = queryString.parse(query);
 		
 		if(!params.lon || !params.lat) {
+			console.log("Missing params");
 			response.writeHead(400, responseHeaders);
 			var responseMessage = {
 				message: "Missing url parameter in request"
@@ -61,7 +62,7 @@ function onRequest(request, response) {
 	} else if(request.url === "/proxy/feed/bbc-world") {
 		
 		try{
-			response.writeHead(200, responseHeaders);
+			response.writeHead(200, responseHeadersRSS);
 			requestHandler("https://feeds.bbci.co.uk/news/world/rss.xml").pipe(response);
 		}
 		catch(exception) {
@@ -78,7 +79,7 @@ function onRequest(request, response) {
 	} else if(request.url === "/proxy/feed/bbc-tech") {
 		
 		try{
-			response.writeHead(200, responseHeaders);
+			response.writeHead(200, responseHeadersRSS);
 			requestHandler("https://feeds.bbci.co.uk/news/technology/rss.xml").pipe(response);
 		}
 		catch(exception) {
