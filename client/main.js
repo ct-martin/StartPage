@@ -58,18 +58,18 @@ var app = {
 	feedRSS: {
 		data: {
 			feeds: {
-				"feedBBCWorld": {
+				"BBCWorld": {
 					lastUpdate: 0,
 					url: "/proxy/feed/bbc-world",
 					cache: ""
 				},
-				"feedBBCTech": {
+				"BBCTech": {
 					lastUpdate: 0,
 					url: "/proxy/feed/bbc-tech",
 					cache: ""
 				}
 			},
-			current: "feedBBCWorld"
+			current: "BBCWorld"
 		},
 		
 		update: function() {
@@ -162,6 +162,18 @@ var app = {
 			
 		}
 	},
+	feed: {
+		data: {
+			currentModule: "feedRSS"
+		},
+		
+		update: function() {
+			app[app.feed.data.currentModule].update();
+		},
+		display: function() {
+			app[app.feed.data.currentModule].display();
+		}
+	}
 	
 	focused: true,
 	
@@ -174,6 +186,17 @@ var app = {
 			app.weather.display();
 		}
 		// add feed cache persistence
+		
+		document.querySelector("#feedBBCWorld").onclick = function(e) {
+			app.feed.current = "feedRSS";
+			app.feedRSS.current = "BBCWorld";
+			app.feed.update();
+		};
+		document.querySelector("#feedBBCTech").onclick = function(e) {
+			app.feed.current = "feedRSS";
+			app.feedRSS.current = "BBCTech";
+			app.feed.update();
+		};
 		
 		
 		// set timer for update (15min?)
