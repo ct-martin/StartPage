@@ -22,6 +22,7 @@ var OWM_API_KEY = '22cf961bcdba1c1e07075cd300013dd4';
 
 var index = fs.readFileSync(__dirname + '/../client/index.html');
 var jsFile = fs.readFileSync(__dirname + '/../client/main.js');
+var cssFile = fs.readFileSync(__dirname + '/../client/styles.css');
 
 function proxyReq(url, response, rss=false) {
 	rp(url)
@@ -53,6 +54,10 @@ function onRequest(request, response) {
 	if(request.url === "/main.js") {
 		response.writeHead(200, {"Content-Type": "text/javascript"});
 		response.write(jsFile);
+		response.end();
+	} else if(request.url === "/styles.css") {
+		response.writeHead(200, {"Content-Type": "text/css"});
+		response.write(cssFile);
 		response.end();
 	} else if(request.url.split('?')[0] === "/proxy/weather") {
 		var query = request.url.split('?')[1];
