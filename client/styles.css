@@ -69,12 +69,12 @@ nav a:hover {
 /* EFFECTS */
 @keyframes slidein {
 	from {
-		height: 0;
+		max-height: 0;
 	}
 	to {
-		height: default;
+		max-height: 100px;
 	}
 }
-i.loadStates, #news>div {
+i.loadStates {
 	animation: .5s slidein;
 }
