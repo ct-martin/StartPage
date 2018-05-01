@@ -67,7 +67,14 @@ nav a:hover {
 }
 
 /* EFFECTS */
+@keyframes slidein {
+	from {
+		height: 0;
+	}
+	to {
+		height: default;
+	}
+}
 i.loadStates, #news>div {
-	transition-property: height;
-	transition-duration: .5s;
+	animation: .5s slidein;
 }
