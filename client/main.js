@@ -173,7 +173,7 @@ var app = {
 		display: function() {
 			app[app.feed.data.currentModule].display();
 		}
-	}
+	},
 	
 	focused: true,
 	
@@ -189,12 +189,12 @@ var app = {
 		
 		document.querySelector("#feedBBCWorld").onclick = function(e) {
 			app.feed.current = "feedRSS";
-			app.feedRSS.current = "BBCWorld";
+			app.feedRSS.data.current = "BBCWorld";
 			app.feed.update();
 		};
 		document.querySelector("#feedBBCTech").onclick = function(e) {
 			app.feed.current = "feedRSS";
-			app.feedRSS.current = "BBCTech";
+			app.feedRSS.data.current = "BBCTech";
 			app.feed.update();
 		};
 		
