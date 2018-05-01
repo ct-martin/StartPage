@@ -29,10 +29,12 @@ var app = {
 		update: function() {
 			if(app.location.data.success != true) {
 				// don't have valid coords - don't try to use
+				console.log("Not updating weather; no valid location");
 				return;
 			}
-			if(new Date() - new Date(app.weather.data.lastUpdate) - new Date(0,0,0,0,10) >= 0) {
+			if(new Date() - new Date(app.weather.data.lastUpdate) - new Date(0,0,0,0,10) < 0) {
 				// don't refresh if <10min since last update - OWM will get sad if we do
+				console.log("Not updating weather; last update too recent");
 				return;
 			}
 			
@@ -76,9 +78,9 @@ var app = {
 				return;
 			}
 			var feed = app.feedRSS.data.feeds[app.feedRSS.data.current];
-			console.dir(feed);
-			if(new Date() - new Date(feed.lastUpdate) - new Date(0,0,0,0,15) >= 0) {
+			if(new Date() - new Date(feed.lastUpdate) - new Date(0,0,0,0,15) < 0) {
 				// don't refresh if <15min since last update - feeds will be sad (BBC's specified TTL is 15)
+				console.log("Not updating feed; last update too recent");
 				return;
 			}
 			
@@ -86,8 +88,6 @@ var app = {
 			xhr.onload = function() {
 				feed.lastUpdate = new Date();
 				feed.cache = xhr.responseText;
-				
-				console.dir(feed);
 				
 				if(window.localStorage.feeds == null) {
 					window.localStorage.feeds = {};
