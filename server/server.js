@@ -29,6 +29,7 @@ function onRequest(request, response) {
 	if(request.url === "/main.js") {
 		response.writeHead(200, {"Content-Type": "text/javascript"});
 		response.write(jsFile);
+		response.end();
 	} else if(request.url === "/proxy/weather") {
 		var query = request.url.split('?')[1];
 		var params = queryString.parse(query);
@@ -47,6 +48,7 @@ function onRequest(request, response) {
 		try{
 			response.writeHead(200, responseHeaders);
 			requestHandler("https://api.openweathermap.org/data/2.5/weather?lat=" + params.lat + "&lon=" + params.lon + "&appid=" + OWM_API_KEY + "&units=imperial").pipe(response);
+			response.end();
 		}
 		catch(exception) {
 			console.dir(exception);
@@ -64,6 +66,7 @@ function onRequest(request, response) {
 		try{
 			response.writeHead(200, responseHeadersRSS);
 			requestHandler("https://feeds.bbci.co.uk/news/world/rss.xml").pipe(response);
+			response.end();
 		}
 		catch(exception) {
 			console.dir(exception);
@@ -81,6 +84,7 @@ function onRequest(request, response) {
 		try{
 			response.writeHead(200, responseHeadersRSS);
 			requestHandler("https://feeds.bbci.co.uk/news/technology/rss.xml").pipe(response);
+			response.end();
 		}
 		catch(exception) {
 			console.dir(exception);
@@ -96,9 +100,8 @@ function onRequest(request, response) {
 	} else {
 		response.writeHead(200, {"Content-Type": "text/html"});
 		response.write(index);
+		response.end();
 	}
-	
-	//response.end();
 }
 
 http.createServer(onRequest).listen(port);
