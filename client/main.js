@@ -78,7 +78,7 @@ var app = {
 				// not currently displaying a feed, don't refresh
 				return;
 			}
-			document.querySelector("#news").innerHTML = '<i class="loadStates">Loading...</i>" + document.querySelector("#news").innerHTML;
+			document.querySelector("#news").innerHTML = '<i class="loadStates">Loading...</i>' + document.querySelector("#news").innerHTML;
 			var feed = app.feedRSS.data.feeds[app.feedRSS.data.current];
 			if(new Date() - new Date(feed.lastUpdate) - (15*60*1000) < 0) {
 				// don't refresh if <15min since last update - feeds will be sad (BBC's specified TTL is 15)
