@@ -75,6 +75,17 @@ nav a:hover {
 		max-height: 100px;
 	}
 }
+@keyframes fadein {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
 i.loadStates {
 	animation: .5s slidein;
+}
+#news>div, #weather p {
+	animation: fadein;
 }
