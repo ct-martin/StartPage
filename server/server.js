@@ -1,7 +1,7 @@
 var http = require('http');
 var fs = require('fs');
 var queryString = require('querystring');
-var requestHandler = require('request');
+var rp = require('request-promise');
 
 var port = process.env.PORT || process.env.NODE_PORT || 3000;
 var responseHeaders = {	
@@ -23,6 +23,30 @@ var OWM_API_KEY = '22cf961bcdba1c1e07075cd300013dd4';
 var index = fs.readFileSync(__dirname + '/../client/index.html');
 var jsFile = fs.readFileSync(__dirname + '/../client/main.js');
 
+function proxyReq(url, response, rss=false) {
+	rp(url)
+		.then(function(htmlString) {
+			if(rss === true) {
+				response.writeHead(200, responseHeadersRSS);
+			} else {
+				response.writeHead(200, responseHeaders);
+			}
+			response.write(htmlString);
+			response.end();
+		})
+		.catch(function (err) {
+			console.dir(err);
+			response.writeHead(500, responseHeaders);
+			
+			var responseMessage = {
+				message: "Error connecting to server. Check url and arguments for proper formatting"
+			}
+			
+			response.write(JSON.stringify(responseMessage));
+			response.end();
+		});
+}
+
 function onRequest(request, response) {
 	console.log(request.url);
 
@@ -30,7 +54,7 @@ function onRequest(request, response) {
 		response.writeHead(200, {"Content-Type": "text/javascript"});
 		response.write(jsFile);
 		response.end();
-	} else if(request.url === "/proxy/weather") {
+	} else if(request.url.split('?')[0] === "/proxy/weather") {
 		var query = request.url.split('?')[1];
 		var params = queryString.parse(query);
 		
@@ -45,58 +69,16 @@ function onRequest(request, response) {
 			return;
 		}
 		
-		try{
-			response.writeHead(200, responseHeaders);
-			requestHandler("https://api.openweathermap.org/data/2.5/weather?lat=" + params.lat + "&lon=" + params.lon + "&appid=" + OWM_API_KEY + "&units=imperial").pipe(response);
-			response.end();
-		}
-		catch(exception) {
-			console.dir(exception);
-			response.writeHead(500, responseHeaders);
-			
-			var responseMessage = {
-				message: "Error connecting to server. Check url and arguments for proper formatting"
-			}
-			
-			response.write(JSON.stringify(responseMessage));
-			response.end();
-		}
+		proxyReq("https://api.openweathermap.org/data/2.5/weather?lat=" + params.lat + "&lon=" + params.lon + "&appid=" + OWM_API_KEY + "&units=imperial", response);
+		
 	} else if(request.url === "/proxy/feed/bbc-world") {
 		
-		try{
-			response.writeHead(200, responseHeadersRSS);
-			requestHandler("https://feeds.bbci.co.uk/news/world/rss.xml").pipe(response);
-			response.end();
-		}
-		catch(exception) {
-			console.dir(exception);
-			response.writeHead(500, responseHeaders);
-			
-			var responseMessage = {
-				message: "Error connecting to server. Check url and arguments for proper formatting"
-			}
-			
-			response.write(JSON.stringify(responseMessage));
-			response.end();
-		}
+		proxyReq("https://feeds.bbci.co.uk/news/world/rss.xml", response, true);
+		
 	} else if(request.url === "/proxy/feed/bbc-tech") {
 		
-		try{
-			response.writeHead(200, responseHeadersRSS);
-			requestHandler("https://feeds.bbci.co.uk/news/technology/rss.xml").pipe(response);
-			response.end();
-		}
-		catch(exception) {
-			console.dir(exception);
-			response.writeHead(500, responseHeaders);
-			
-			var responseMessage = {
-				message: "Error connecting to server. Check url and arguments for proper formatting"
-			}
-			
-			response.write(JSON.stringify(responseMessage));
-			response.end();
-		}
+		proxyReq("https://feeds.bbci.co.uk/news/technology/rss.xml", response, true);
+		
 	} else {
 		response.writeHead(200, {"Content-Type": "text/html"});
 		response.write(index);
