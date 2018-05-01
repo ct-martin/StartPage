@@ -89,10 +89,10 @@ var app = {
 				feed.lastUpdate = new Date();
 				feed.cache = xhr.responseText;
 				
-				if(window.localStorage.feeds == null) {
-					window.localStorage.feeds = {};
-				}
-				window.localStorage.feeds[app.feedRSS.data.current] = JSON.stringify(feed);
+				//if(window.localStorage.feeds == null) {
+				//	window.localStorage.feeds = {};
+				//}
+				//window.localStorage.feeds[app.feedRSS.data.current] = JSON.stringify(feed);
 				app.feedRSS.display();
 			};
 			xhr.onerror = function() {
