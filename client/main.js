@@ -205,7 +205,7 @@ var app = {
 	update: function() {
 		app.location.update();
 		app.weather.update();
-		app.feedRSS.update();
+		app.feed.update();
 	}
 };
 
