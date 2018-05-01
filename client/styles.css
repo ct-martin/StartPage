@@ -84,8 +84,8 @@ nav a:hover {
 	}
 }
 i.loadStates {
-	animation: .5s slidein;
+	animation: 1s slidein;
 }
 #news>div, #weather p {
-	animation: fadein;
+	animation: 1s fadein;
 }
